@@ -145,7 +145,7 @@ AI-powered computer vision system for identifying multiple waste objects
 # ==================================================
 # LOAD MODEL
 # ==================================================
-
+ 
 @st.cache_resource
 def load_model():
     return YOLO("waste_model.pt")
@@ -153,7 +153,7 @@ def load_model():
 
 model = load_model()
 
-
+# model file
 # ==================================================
 # WASTE CATEGORIES
 # ==================================================
