@@ -1,4 +1,3 @@
-
 import streamlit as st
 from ultralytics import YOLO
 from PIL import Image
@@ -42,8 +41,6 @@ st.markdown("""
     max-width: 1400px;
 }
 
-/* Main header */
-
 .hero {
     padding: 28px 20px;
     border-radius: 20px;
@@ -69,8 +66,6 @@ st.markdown("""
     opacity: 0.75;
 }
 
-/* Section titles */
-
 .section-title {
     font-size: 25px;
     font-weight: 700;
@@ -78,16 +73,12 @@ st.markdown("""
     margin-bottom: 12px;
 }
 
-/* Input card */
-
 .input-card {
     padding: 20px;
     border-radius: 18px;
     border: 1px solid rgba(128, 128, 128, 0.25);
     margin-bottom: 20px;
 }
-
-/* Status badge */
 
 .status-badge {
     display: inline-block;
@@ -98,8 +89,6 @@ st.markdown("""
     margin-bottom: 12px;
 }
 
-/* Detection object */
-
 .object-card {
     padding: 18px;
     border-radius: 16px;
@@ -107,16 +96,12 @@ st.markdown("""
     margin-bottom: 12px;
 }
 
-/* Guide */
-
 .guide-card {
     padding: 16px;
     border-radius: 14px;
     border: 1px solid rgba(128, 128, 128, 0.18);
     margin-bottom: 10px;
 }
-
-/* Footer */
 
 .footer {
     text-align: center;
@@ -163,7 +148,7 @@ AI-powered computer vision system for identifying multiple waste objects
 
 @st.cache_resource
 def load_model():
-    return YOLO("trash_model.pt")
+    return YOLO("waste_model.pt")
 
 
 model = load_model()
@@ -1077,8 +1062,7 @@ if uploaded_file:
 
                     object_text = ", ".join(
                         f"{name} ({count})"
-                        for name, count
-                        in objects.items()
+                        for name, count in objects.items()
                     )
 
 
