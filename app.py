@@ -147,11 +147,27 @@ AI-powered computer vision system for identifying multiple waste objects
 # ==================================================
  
 @st.cache_resource
-def load_model():
-    return YOLO("waste_model.pt")
+def load_models():
+    current_model = YOLO("waste_model.pt")
+    taco_model = YOLO("taco_model.pt")
+    return current_model, taco_model
 
 
-model = load_model()
+current_model, taco_model = load_models()
+
+model_choice = st.selectbox(
+    "Choose AI Model",
+    ["Current Model (18 classes)", "TACO YOLO11s (9 classes)"]
+)
+
+if model_choice == "Current Model (18 classes)":
+    model = current_model
+    image_size = 640
+    confidence_threshold = 0.25
+else:
+    model = taco_model
+    image_size = 896
+    confidence_threshold = 0.25
 
 # model file
 # ==================================================
@@ -414,8 +430,8 @@ if uploaded_file:
         results = model.predict(
             image,
             device="cpu",
-            conf=0.45,
-            imgsz=640
+            conf=confidence_threshold,
+            imgsz=image_size
         )
 
     result = results[0]
@@ -461,6 +477,23 @@ if uploaded_file:
             ) * 100
 
             class_name = result.names[class_id]
+
+            if model_choice == "TACO YOLO11s (9 classes)":
+                taco_class_mapping = {
+                    "Plastic bag & wrapper": "Plastic bag - wrapper",
+                    "Cigarette": "Cigarette",
+                    "Bottle": "Bottle",
+                    "Bottle cap": "Bottle cap",
+                    "Can": "Can",
+                    "Other plastic": "Other plastic",
+                    "Carton": "Carton",
+                    "Cup": "Cup",
+                    "Other": "Other litter"
+                }
+                class_name = taco_class_mapping.get(
+                    class_name,
+                    "Other litter"
+                )
 
             category = waste_categories.get(
                 class_name,
